@@ -74,7 +74,7 @@ def createAndSendMessage(article, suggestions1) -> None:
 
     emojisDict = {"eat": "🍔🍔🍔", "lifestyle": "🗿🗿🗿", "events": "🎪🎪🎪"}
 
-    body += f"{emojisDict[articles[0].activity.lower()]} {articles[0].title}\n"
+    body += f"{emojisDict[article.activity.lower()]} {article.title}\n"
 
     for idx, suggestion in enumerate(suggestions1):
         body += "\n"
