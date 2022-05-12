@@ -1,0 +1,31 @@
+name: "Automated Fun Scraper and Sender"
+
+on:
+  schedule:
+    - cron: "0 10 * * 5"
+  workflow_dispatch:
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest # Using linux machine
+    env:
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      TWILIO_SID: ${{ secrets.TWILIO_SID }}
+      TWILIO_TOKEN: ${{ secrets.TWILIO_TOKEN }}
+      TWILIO_VIRTUAL_PHONE_NO: ${{ secrets.TWILIO_VIRTUAL_PHONE_NO }}
+      MY_PHONE_NO: ${{ secrets.MY_PHONE_NO }}
+      MY_CITY: ${{ secrets.MY_CITY }}
+      HOME_ADDRESS: ${{ secrets.HOME_ADDRESS }}
+    steps:
+      - name: Checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7.7' # install the python version needed
+      - name: Install Dependencies # Using shell script to install Google Chrome
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Execute main script # run main.py to get the latest data
+        run: python main.py
